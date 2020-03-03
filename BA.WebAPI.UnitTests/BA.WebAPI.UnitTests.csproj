@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JogApp.WebAPI\JogApp.WebAPI.csproj" />
+    <ProjectReference Include="..\BA.WebAPI\BA.WebAPI.csproj" />
   </ItemGroup>
 
 </Project>
