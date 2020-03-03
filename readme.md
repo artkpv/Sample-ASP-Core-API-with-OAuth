@@ -4,6 +4,9 @@ A sample project. REST API that tracks biking times of users
 
 ## Roadmap / features
 
+- [ ] Demo
+    - [ ] Demo client for API and its authorization
+    - [ ] Script to run
 - [ ] All API calls must be authenticated under OAuth 2.
     - [ ] HTTPS. TSL / Certificates. 
 - [ ] A time entry when entered has a date, distance, time, and location.
@@ -25,5 +28,6 @@ A sample project. REST API that tracks biking times of users
 - ASP.NET Web API https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.1
 - OpenWeather API https://openweathermap.org/api
 - IdentityServer4 https://identityserver4.readthedocs.io/en/latest/index.html#
+- OAuth 2. https://aaronparecki.com/oauth-2-simplified/
 
 
