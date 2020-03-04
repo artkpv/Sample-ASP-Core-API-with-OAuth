@@ -75,6 +75,22 @@ namespace BA.WebAPI
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.AddSecurityDefinition("oauth2",  new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        AuthorizationCode = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri("https://localhost:5002/connect/authorize", UriKind.Absolute),
+                            TokenUrl = new Uri("https://localhost:5002/connect/token", UriKind.Absolute),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                { "BAWebAPI", "Read / write" },
+                            }
+                        }
+                    }
+                });
             });
         }
 

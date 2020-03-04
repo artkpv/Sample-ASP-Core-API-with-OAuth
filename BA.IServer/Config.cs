@@ -78,7 +78,11 @@ namespace BA.IServer
                     RequirePkce = false,
                     ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
 
-                    RedirectUris = { "http://localhost:5000/signin-oidc" },
+
+                    RedirectUris =
+                    {
+                        "https://localhost:5000/swagger/oauth2-redirect.html"
+                    },
                     FrontChannelLogoutUri = "http://localhost:5000/signout-oidc",
                     PostLogoutRedirectUris = { "http://localhost:5000/signout-callback-oidc" },
 
@@ -91,22 +95,19 @@ namespace BA.IServer
                 {
                     ClientId = "spa",
                     ClientName = "SPA Client",
-                    ClientUri = "http://identityserver.io",
+                    ClientUri = "https://localhost:5000",
 
                     AllowedGrantTypes = GrantTypes.Code,
-                    RequirePkce = true,
+                    RequirePkce = false,
                     RequireClientSecret = false,
 
                     RedirectUris =
                     {
-                        "http://localhost:5002/index.html",
-                        "http://localhost:5002/callback.html",
-                        "http://localhost:5002/silent.html",
-                        "http://localhost:5002/popup.html",
+                        "https://localhost:5000/swagger/oauth2-redirect.html"
                     },
 
-                    PostLogoutRedirectUris = { "http://localhost:5002/index.html" },
-                    AllowedCorsOrigins = { "http://localhost:5002" },
+                    PostLogoutRedirectUris = { "https://localhost:5002/index.html" },
+                    AllowedCorsOrigins = { "https://localhost:5000" },
 
                     AllowedScopes = { "openid", "profile", "BAWebAPI" }
                 }
