@@ -6,7 +6,6 @@ A sample project. REST API that tracks biking times of users
 
 - [ ] Demo
     - [ ] Python client, script with interactive work. See https://github.com/swagger-api/swagger-codegen#to-generate-a-sample-client-library
-
 - [ ] All API calls must be authenticated under OAuth 2.
     - [ ] HTTPS. TSL / Certificates. 
 - [ ] A time entry when entered has a date, distance, time, and location.

@@ -32,7 +32,6 @@ function Clean
 }
 
 function Provision {
-    param ($script = $null)
     & _EnsureEnvironment
     # Development environment settings:
     $env:ASPNETCORE_Kestrel__Certificates__Default__Password = "1234"
@@ -48,12 +47,6 @@ function Provision {
 
     $apiP = Start-Process @runArgs -Args "run --project BA.WebAPI" -RedirectStandardOutput $artifactsDir/apiserver.logs.txt
     $iserverP = Start-Process @runArgs -Args "run --project BA.IServer" -RedirectStandardOutput $artifactsDir/iserver.logs.txt
-
-    if ($script)
-    {
-        sleep 3  # Better make ping...
-        & $script
-    }
 
     read-host “Servers started. Press ENTER to stop...”
 
