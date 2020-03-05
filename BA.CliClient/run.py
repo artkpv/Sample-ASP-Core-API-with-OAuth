@@ -71,7 +71,7 @@ class GetBikingAction(Action):
 
         for i, entry in enumerate(entries):
             print("Entry 1:".format(i+1))
-            print_bikingentry(entry)
+            print_dict(entry)
 
 
 class RecordBikingAction(Action):
@@ -112,7 +112,7 @@ class ModifyBikingAction(Action):
         entry = gr.json()
 
         print("Found entry:")
-        print_bikingentry(entry)
+        print_dict(entry)
 
         entry['distanceMeters'] = int(input('Distance in meters: ') or entry['distanceMeters'])
         entry["durationSeconds"] = int(input('Duration in seconds: ') or entry["durationSeconds"])
@@ -132,19 +132,46 @@ class ModifyBikingAction(Action):
 class DeleteBikingAction(Action):
     description = "Delete biking entry"
 
+    def run(self):
+        api = self.session()
+        entryid = int(input("Enter entry id: "))
+        dr = api.delete(api.bikingentryurl + '/' + str(entryid))
+        if 200 <= dr.status_code <= 299:
+            print("Entry deleted")
+        else:
+            print("Entry was not deleted ({} status)".format(dr.status_code))
+
 
 class GetWeeklyReportAction(Action):
     description = "Weekly report"
+
+    def run(self):
+        api = self.session()
+
+        print("Generating reports...")
+
+        adminContext = ClientContext()
+        admapi = adminContext.get_session_by_user_pass("administrator", "Pass123$")
+        generaterequerst = admapi.post(admapi.reporturl, params = {'userId': api.username })
+        assert generaterequerst.status_code == 200, \
+            "Failed: {} {}".format(generaterequerst.status_code, str(generaterequerst))
+
+        gr = api.get(api.reporturl)
+        assert gr.status_code == 200
+        reports = gr.json()
+        print("{} reports found".format(reports))
+        for r in reports:
+            print_dict(r)
 
 
 class ClientContext(object):
     def __init__(self):
         self._session = None
 
-    def get_session_by_user_pass(self):
+    def get_session_by_user_pass(self, username=None, password=None):
         if self._session is None:
-            username = input("Enter username: ")
-            password = input("Enter password: ")
+            username = username or input("Enter username: ")
+            password = password or input("Enter password: ")
             self._session = self._create_session()
             if username:
                 self._session.login(username, password)
@@ -156,7 +183,7 @@ class ClientContext(object):
         return  contextsession()
 
 
-def print_bikingentry(entry):
+def print_dict(entry):
     def getprefix(s):
         if isinstance(s, str):
             prefixlen = 100
