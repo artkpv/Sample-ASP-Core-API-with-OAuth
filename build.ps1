@@ -43,6 +43,7 @@ function Clean
 }
 
 function Provision {
+    param($script = $null)
     & _EnsureEnvironment
     $runArgs = @{
         PassThru = $true
@@ -55,16 +56,26 @@ function Provision {
         RedirectStandardOutput = "$artifactsDir/apiserver.logs.txt"
     }
     $apiP = Start-Process @runArgs @apiPArgs
-    write-host “API started. Logs at " + $apiPArgs.RedirectStandardOutput
+    write-host "API started
+    URLs: $($env:BIKINGAPP_API_URLS)
+    Logs: $($apiPArgs.RedirectStandardOutput)"
 
     $iserverArgs = @{
         Args = "run --project BA.IServer" 
         RedirectStandardOutput = "$artifactsDir/iserver.logs.txt"
     }
     $iserverP = Start-Process @runArgs @iserverArgs
-    write-host “IServer started. Logs at " + $iserverArgs.RedirectStandardOutput
+    write-host "IdentityServer (OAuth) started
+    URLs: $($env:BIKINGAPP_ISERVER_URLS)
+    Logs: $($iserverArgs.RedirectStandardOutput)"
 
-    read-host “Press ENTER to stop...”
+    if ($script) 
+    {
+        sleep 2  # To wait servers to start.
+        & $script
+    }
+
+    read-host “Press ENTER to stop the API...”
 
     Stop-Process -Id $apiP.Id
     Stop-Process -Id $iserverP.Id
@@ -91,7 +102,25 @@ function Test {
 }
 
 function Build {
+    & _EnsurePythonClientsContextCreated
     & dotnet build
+}
+
+function Demo {
+    & Build
+    & Provision -Script {
+        python3 ./BA.CliClient/run.py
+    }
+}
+
+function _EnsurePythonClientsContextCreated
+{
+    $pythonContextFile = (Resolve-Path ./BA.E2ETests/context.py).Path
+    $pythonContextFileLink = (Resolve-Path ./BA.CliClient/context.py).Path
+    if (-not (test-path $pythonContextFileLink ))
+    {
+        new-item -Path $pythonContextFileLink -ItemType HardLink -Value $pythonContextFile
+    }
 }
 
 if ($Task)
