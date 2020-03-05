@@ -1,3 +1,4 @@
+using System;
 using BA.WebAPI.Model;
 
 namespace BA.WebAPI.Model
@@ -6,7 +7,7 @@ namespace BA.WebAPI.Model
     {
         public static void CopyToDbEntry(this BikingEntryDto dto, BikingEntry dbEntry)
         {
-            dbEntry.StartTime = dto.StartTime?.ToUniversalTime() ?? null;
+            dbEntry.StartTime = ToDbDateTimeUtc(dto.StartTime);
             dbEntry.DistanceMeters = dto.DistanceMeters;
             if (dto.Latitude.HasValue && dto.Longitude.HasValue)
                 dbEntry.Location =
@@ -19,7 +20,7 @@ namespace BA.WebAPI.Model
             return new BikingEntryDto()
             {
                 Id = dbEntry.Id,
-                StartTime = dbEntry.StartTime,
+                StartTime = ToDateTimeOffset(dbEntry.StartTime),
                 DistanceMeters = dbEntry.DistanceMeters,
                 Latitude = dbEntry.Location?.Latitude,
                 Longitude = dbEntry.Location?.Longitude,
@@ -27,5 +28,15 @@ namespace BA.WebAPI.Model
                 Weather = dbEntry.Weather
             };
         }
+
+        private static DateTime? ToDbDateTimeUtc(DateTimeOffset? dto)
+            => dto.HasValue
+                ? new DateTime(dto.Value.ToUniversalTime().DateTime.Ticks, DateTimeKind.Utc)
+                : (DateTime?)null;
+
+        private static DateTimeOffset? ToDateTimeOffset(DateTime? dt) 
+            => dt.HasValue
+             ? new DateTimeOffset(dt.Value, TimeSpan.Zero)
+             : (DateTimeOffset?)null;
     }
 }

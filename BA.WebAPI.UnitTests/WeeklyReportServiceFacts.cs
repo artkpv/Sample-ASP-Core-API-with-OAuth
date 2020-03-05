@@ -144,7 +144,7 @@ namespace BA.WebAPI.UnitTests
 
             BikingEntry re = BikingEntry.FromUserTimeSecondsMeters(
                 userId,
-                 DateTimeOffset.Parse(m.Groups[1].Value,
+                 DateTime.Parse(m.Groups[1].Value,
                      DateTimeFormatInfo.CurrentInfo,
                      DateTimeStyles.AssumeUniversal),
                  uint.Parse(m.Groups[2].Value),

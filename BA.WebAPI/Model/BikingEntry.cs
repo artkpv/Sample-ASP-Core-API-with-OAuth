@@ -5,7 +5,7 @@ namespace BA.WebAPI.Model
     public class BikingEntry
     {
         public long Id { get; set; }
-        public DateTimeOffset? StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
         public uint? DistanceMeters { get; set; } 
         public uint? DurationSeconds { get; set; }
         public Coordinates Location { get; set; } = Coordinates.Empty;
@@ -14,7 +14,7 @@ namespace BA.WebAPI.Model
 
         public static BikingEntry FromUserTimeSecondsMeters(
             string userId,
-            DateTimeOffset startTime,
+            DateTime startTime,
             uint runSeconds,
             uint runMeters)
             => new BikingEntry() {
