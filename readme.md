@@ -11,7 +11,9 @@ A sample project. REST API that tracks biking times of users
 ## Get started
 
 - Make sure prerequisites are installed and ready
-- In your command line run 
+- Clone `git clone git@github.com:artkpv/Sample-ASP-Core-API-with-OAuth.git`
+- `cd Sample-ASP-Core-API-with-OAuth`
+- Run Demo: `powershell ./build.ps1 demo`. It will listen to 5000, 5001, 5002, 5003 ports by default (changable in ./build.ps1).
 
 ## Roadmap / features
 
@@ -27,7 +29,6 @@ A sample project. REST API that tracks biking times of users
 - [x] Write unit tests
 - [x] Write E2E tests
 
-
 ## Refs
 
 - ASP.NET Web API https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.1
@@ -35,4 +36,6 @@ A sample project. REST API that tracks biking times of users
 - IdentityServer4 https://identityserver4.readthedocs.io/en/latest/index.html#
 - OAuth 2. https://aaronparecki.com/oauth-2-simplified/
 
+## License
 
+See LICENSE file
