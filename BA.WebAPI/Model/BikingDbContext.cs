@@ -8,6 +8,7 @@ namespace BA.WebAPI.Model
         public BikingDbContext(DbContextOptions<BikingDbContext> options) 
             : base(options)
         {
+            this.Database.EnsureCreated();
         }
 
         public DbSet<BikingEntry> BikingEntries { get; set; }

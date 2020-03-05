@@ -22,12 +22,13 @@ def test_generates_reports(session):
 def test_filter_startTime(session):
     session.login("administrator")
     count = 10
-    
     starttime = getServerFriendlyNowDateTime()
     for i in range(count):
         insert_entry(session, startTime=starttime)
-    filterstr = 'date ge "' + starttime + '"'
 
+    pr = session.post(session.reporturl, params = {'userId': session.username })
+
+    filterstr = 'date ge "' + starttime + '"'
     gr = session.get(session.reporturl, params = {'filter': filterstr , 'page':1, 'pagesize': 3 })
 
     assert gr.status_code == 200

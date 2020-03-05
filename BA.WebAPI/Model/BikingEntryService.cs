@@ -31,12 +31,15 @@ namespace BA.WebAPI.Model
         {
             Trace.Assert(!string.IsNullOrWhiteSpace(userId));
             if (input.StartTime == null)
-                input.StartTime = DateTimeOffset.UtcNow;
+                input.StartTime = DateTime.UtcNow;
 
             var dbEntry = new BikingEntry();
             dbEntry.UserId = userId;
             
             input.CopyToDbEntry(dbEntry);
+
+            Trace.Assert(dbEntry.StartTime.Value.Kind == DateTimeKind.Utc, 
+                $"Invalid DateTimeKind: {dbEntry.StartTime.Value.Kind}");
 
             _context.BikingEntries.Add(dbEntry);
             await _context.SaveChangesAsync();
