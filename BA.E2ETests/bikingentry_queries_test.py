@@ -98,7 +98,7 @@ def test_filter_and_paging(api):
 
 def getServerFriendlyNowDateTime():
     """ Avoids microseconds as datetime storing differs. """
-    d = datetime.now(timezone.utc)
+    d = datetime.utcnow()
     return datetime(
         d.year,
         d.month,

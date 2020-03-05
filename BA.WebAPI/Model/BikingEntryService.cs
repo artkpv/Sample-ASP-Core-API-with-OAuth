@@ -31,7 +31,7 @@ namespace BA.WebAPI.Model
         {
             Trace.Assert(!string.IsNullOrWhiteSpace(userId));
             if (input.StartTime == null)
-                input.StartTime = DateTimeOffset.UtcNow;
+                input.StartTime = DateTime.UtcNow;
 
             var dbEntry = new BikingEntry();
             dbEntry.UserId = userId;

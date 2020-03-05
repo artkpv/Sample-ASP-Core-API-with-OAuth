@@ -7,7 +7,7 @@ namespace BA.WebAPI.Model
     {
         public long Id { get; set; }
 
-        public DateTimeOffset? StartTime { get; set; }
+        public DateTime? StartTime { get; set; }
 
         public uint? DistanceMeters { get; set; }
 

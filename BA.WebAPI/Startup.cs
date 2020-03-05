@@ -47,20 +47,20 @@ namespace BA.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            if (_env.IsDevelopment())
-                services.AddDbContext<BikingDbContext>(opt =>
-                {
-                    opt.UseInMemoryDatabase("BikingDb");
-                });
-            else
-            {
+            //if (_env.IsDevelopment())
+                //services.AddDbContext<BikingDbContext>(opt =>
+                //{
+                    //opt.UseInMemoryDatabase("BikingDb");
+                //});
+            //else
+            //{
                 services.AddDbContext<BikingDbContext>(opt =>
                 {
                     opt.UseSqlite(
                         Configuration.GetConnectionString("BAAPIDbContextConnection"));
 
                 });
-            }
+            //}
 
             ConfigureServicesAuth(services);
 
