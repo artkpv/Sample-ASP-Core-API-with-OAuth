@@ -20,7 +20,10 @@ namespace BA.WebAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                    .UseUrls(Environment.GetEnvironmentVariable("BIKINGAPP_API_URLS"))
+                    .UseStartup<Startup>()
+                    ;
                 });
     }
 }

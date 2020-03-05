@@ -23,6 +23,17 @@ $( $scriptInvocation | out-string )
 Host:
 $( $Host | out-string )
 "@ > $artifactsDir/readme.txt
+
+
+    # Development environment settings:
+    $env:ASPNETCORE_Kestrel__Certificates__Default__Password = "1234"
+    $env:ASPNETCORE_Kestrel__Certificates__Default__Path = (Resolve-Path "./localhost.pfx").Path
+    $env:ASPNETCORE_ENVIRONMENT = "Development"
+    $cdDir = (Resolve-Path .).Path
+
+    $env:BIKINGAPP_API_URLS = "https://localhost:5000;http://localhost:5001"
+
+    $env:BIKINGAPP_ISERVER_URLS = "https://localhost:5002;http://localhost:5003"
 }
 
 function Clean 
@@ -33,22 +44,27 @@ function Clean
 
 function Provision {
     & _EnsureEnvironment
-    # Development environment settings:
-    $env:ASPNETCORE_Kestrel__Certificates__Default__Password = "1234"
-    $env:ASPNETCORE_Kestrel__Certificates__Default__Path = (Resolve-Path "./localhost.pfx").Path
-    $env:ASPNETCORE_ENVIRONMENT = "Development"
-    $cdDir = (Resolve-Path .).Path
-
     $runArgs = @{
         PassThru = $true
         FilePath = "dotnet"
         NoNewWindow  = $true
     }
 
-    $apiP = Start-Process @runArgs -Args "run --project BA.WebAPI" -RedirectStandardOutput $artifactsDir/apiserver.logs.txt
-    $iserverP = Start-Process @runArgs -Args "run --project BA.IServer" -RedirectStandardOutput $artifactsDir/iserver.logs.txt
+    $apiPArgs = @{
+        Args = "run --project BA.WebAPI" 
+        RedirectStandardOutput = "$artifactsDir/apiserver.logs.txt"
+    }
+    $apiP = Start-Process @runArgs @apiPArgs
+    write-host “API started. Logs at " + $apiPArgs.RedirectStandardOutput
 
-    read-host “Servers started. Press ENTER to stop...”
+    $iserverArgs = @{
+        Args = "run --project BA.IServer" 
+        RedirectStandardOutput = "$artifactsDir/iserver.logs.txt"
+    }
+    $iserverP = Start-Process @runArgs @iserverArgs
+    write-host “IServer started. Logs at " + $iserverArgs.RedirectStandardOutput
+
+    read-host “Press ENTER to stop...”
 
     Stop-Process -Id $apiP.Id
     Stop-Process -Id $iserverP.Id

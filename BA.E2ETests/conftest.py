@@ -5,6 +5,7 @@ import pytest
 import requests
 import unittest
 import os
+from urllib.parse import urljoin
 
 
 from oauthlib.oauth2 import BackendApplicationClient, LegacyApplicationClient
@@ -32,23 +33,31 @@ def session():
     )
 
     session.verify = "../localhost.crt" 
-    baseurl = 'https://localhost:5000/api'
-    iserverurl = 'https://localhost:5002'
-    session.bikingentryurl = baseurl + '/bikingentry'
-    session.identityurl = baseurl + '/identity'
-    session.reporturl = baseurl + '/weeklyreport'
+
+    apiurls = os.environ['BIKINGAPP_API_URLS']
+    assert apiurls
+    apiurl = apiurls.split(';')[0]
+    session.bikingentryurl = urljoin(apiurl, 'api/bikingentry')
+    session.identityurl = urljoin(apiurl, 'api/identity')
+    session.reporturl = urljoin(apiurl, 'api/weeklyreport')
+
+    iserverurl = os.environ['BIKINGAPP_ISERVER_URLS']
+    assert iserverurl
+    iserverurl = iserverurl.split(';')[0]
 
     def createuser(username):
         assert username
-        rp = requests.post(iserverurl + '/account/ensureusercreated', params={'username': username}, verify=session.verify)
+        requesturl = urljoin(iserverurl, '/account/ensureusercreated')
+        rp = requests.post(requesturl, params={'username': username}, verify=session.verify)
         assert rp.status_code == 204
 
     session.createuser = createuser
 
     def login(user="administrator", password="Pass123$"):
         createuser(user)
+        tokenurl = urljoin(iserverurl,'/connect/token')
         session.fetch_token(
-            token_url=iserverurl + '/connect/token',
+            token_url=tokenurl,
             client_id=client_id,
             client_secret=client_secret,
             username=user,

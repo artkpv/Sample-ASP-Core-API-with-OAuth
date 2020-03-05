@@ -74,6 +74,7 @@ namespace BA.IServer
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls(Environment.GetEnvironmentVariable("BIKINGAPP_ISERVER_URLS"));
                     webBuilder.UseSerilog();
                 });
     }
