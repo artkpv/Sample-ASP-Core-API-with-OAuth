@@ -53,8 +53,5 @@ def getranddatetime():
         r.randint(0, 59),
         tzinfo=timezone.utc
     )
-    dstr = d.isoformat()
-    if dstr.endswith("+00:00"):
-        dstr = dstr.replace("+00:00", "")
-    return dstr
+    return d.isoformat()
 

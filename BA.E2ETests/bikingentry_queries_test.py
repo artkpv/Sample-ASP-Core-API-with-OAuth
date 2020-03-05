@@ -106,7 +106,7 @@ def getServerFriendlyNowDateTime():
         d.hour,
         d.minute,
         d.second,
-        tzinfo=d.tzinfo
+        tzinfo=timezone.utc
     ).isoformat()
 
 

@@ -38,6 +38,9 @@ namespace BA.WebAPI.Model
             
             input.CopyToDbEntry(dbEntry);
 
+            Trace.Assert(dbEntry.StartTime.Value.Kind == DateTimeKind.Utc, 
+                $"Invalid DateTimeKind: {dbEntry.StartTime.Value.Kind}");
+
             _context.BikingEntries.Add(dbEntry);
             await _context.SaveChangesAsync();
             Trace.Assert(dbEntry.Id != 0);

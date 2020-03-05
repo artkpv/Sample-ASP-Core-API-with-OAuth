@@ -33,13 +33,13 @@ namespace BA.WebAPI.Model
             Trace.Assert(!string.IsNullOrWhiteSpace(userId));
 
             // TODO. Warning. Consider doing from last report if perfomance issues.
-            DateTimeOffset? greaterThanDate = null;
+            DateTime? greaterThanDate = null;
 
-            DateTimeOffset? weekStart = GetNextWeekStartDate(userId, greaterThanDate);
+            DateTime? weekStart = GetNextWeekStartDate(userId, greaterThanDate);
 
             while (weekStart != null)
             {
-                DateTimeOffset weekEnd = weekStart.Value.AddDays(DaysInWeek);
+                DateTime weekEnd = weekStart.Value.AddDays(DaysInWeek);
 
                 WeeklyReport wr =
                     GenerateWeeklyReport(userId, weekStart.Value, weekEnd);
@@ -68,8 +68,8 @@ namespace BA.WebAPI.Model
 
         private WeeklyReport GenerateWeeklyReport(
             string userId,
-            DateTimeOffset start,
-            DateTimeOffset end)
+            DateTime start,
+            DateTime end)
         {
             Trace.Assert(start.AddDays(DaysInWeek) == end);
 
@@ -95,7 +95,7 @@ namespace BA.WebAPI.Model
                 userId,
                 (uint)(distanceSum / number),
                 (uint)(speedSum / number),
-                start.DateTime);
+                start);
 
             return wr;
         }
@@ -103,11 +103,11 @@ namespace BA.WebAPI.Model
         private double CalcSpeed(uint seconds, uint meters)
             => seconds / ((double)meters / Kilo);
 
-        private DateTimeOffset? GetNextWeekStartDate(
+        private DateTime? GetNextWeekStartDate(
                 string userId,
-                DateTimeOffset? greaterThanDate)
+                DateTime? greaterThanDate)
         {
-            DateTimeOffset? d = (from re in _context.BikingEntries
+            DateTime? d = (from re in _context.BikingEntries
                                  where
                                      re.UserId == userId
                                      && (
@@ -117,7 +117,7 @@ namespace BA.WebAPI.Model
                                  orderby re.StartTime
                                  select re.StartTime).FirstOrDefault();
 
-            return d?.DateTime.StartOfWeek(WeekStartDay);
+            return d?.StartOfWeek(WeekStartDay);
         }
     }
 }

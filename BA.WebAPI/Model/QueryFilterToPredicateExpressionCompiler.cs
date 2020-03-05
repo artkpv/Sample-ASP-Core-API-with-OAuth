@@ -182,8 +182,11 @@ namespace BA.WebAPI.Model
 
             string TranslateValue(string w)
             {
-                if (DateTime.TryParse(w, out DateTime result))
-                    return $"System.DateTime.FromFileTime({result.ToUniversalTime().ToFileTime()})";
+                if (DateTimeOffset.TryParse(w, out DateTimeOffset result))
+                {
+                    DateTime d = result.ToUniversalTime().DateTime;
+                    return $"System.DateTime.FromFileTime({d.ToFileTime()})";
+                }
                 return w;
             }
 
