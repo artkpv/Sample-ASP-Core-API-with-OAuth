@@ -2,24 +2,30 @@
 
 A sample project. REST API that tracks biking times of users
 
+## Prerequisites
+
+- [.NET Core 3.1 SDK or later](https://dotnet.microsoft.com/download/dotnet-core/3.1) to run ASP.NET Core WebAPI.
+- [Python 3](https://www.python.org/downloads/) to run Demo and E2E tests.
+- [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-windows-powershell?view=powershell-7) to run build scripts and demo.
+
+## Get started
+
+- Make sure prerequisites are installed and ready
+- In your command line run 
+
 ## Roadmap / features
 
-- [ ] Demo
-    - [ ] Python client, script with interactive work. See https://github.com/swagger-api/swagger-codegen#to-generate-a-sample-client-library
-- [ ] All API calls must be authenticated under OAuth 2.
-    - [ ] HTTPS. TSL / Certificates. 
-- [ ] A time entry when entered has a date, distance, time, and location.
-    - [ ] Fix E2E test if on SQLite. Time zone issues? See filtering with startTime.
-- [ ] Based on the provided date and location, API should connect to a weather API provider and get the weather conditions for the trip, and store that with each one.
-- [ ] The API must create a report on average speed & distance per week.
-- [ ] The API must be able to return data in the JSON format.
-- [ ] The API should provide filter capabilities for all endpoints that return a list of elements, as well should be able to support pagination.
-- [ ] The API filtering should allow using parenthesis for defining operations precedence and use any combination of the available fields. The supported operations should at least include or, and, eq (equals), ne (not equals), gt (greater than), lt (lower than).
-- [ ] Example -> (date eq '2016-05-01') AND ((distance gt 20) OR (distance lt 10)).
-- [ ] API Users must be able to create an account and log in.
-- [ ] Write unit tests
-    - [ ] Test empty coordinates
-- [ ] Write E2E tests
+- [x] All API calls must be authenticated under OAuth 2.
+- [x] A time entry when entered has a date, distance, time, and location.
+- [x] Based on the provided date and location, API should connect to a weather API provider and get the weather conditions for the trip, and store that with each one.
+- [x] The API must create a report on average speed & distance per week.
+- [x] The API must be able to return data in the JSON format.
+- [x] The API should provide filter capabilities for all endpoints that return a list of elements, as well should be able to support pagination.
+- [x] The API filtering should allow using parenthesis for defining operations precedence and use any combination of the available fields. The supported operations should at least include or, and, eq (equals), ne (not equals), gt (greater than), lt (lower than).
+- [x] Example -> (date eq '2016-05-01') AND ((distance gt 20) OR (distance lt 10)).
+- [x] API Users must be able to create an account and log in.
+- [x] Write unit tests
+- [x] Write E2E tests
 
 
 ## Refs
