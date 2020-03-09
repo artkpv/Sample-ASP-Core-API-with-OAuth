@@ -170,6 +170,7 @@ class ClientContext(object):
 
     def get_session_by_user_pass(self, username=None, password=None):
         if self._session is None:
+            print("Available users:\n Administrator/Pass123$, Alice/Pass123$, Bob/Pass123$ or enter yours (then password is Pass123$).")
             username = username or input("Enter username: ")
             password = password or input("Enter password: ")
             self._session = self._create_session()
